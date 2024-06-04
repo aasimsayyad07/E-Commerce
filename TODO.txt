@@ -1,0 +1,46 @@
+.....................
+Till Now
+..................... 
+
+API Gateway - 
+1. Create Proxy server to route all services
+2. Add Login and SignAPI API
+3. Crate jwt token after user sign Update
+4. Verify jwt token for each routes -> /products, /orders, /customers, /notifcation
+5. Sign Up -> Add User Details to postgres SQL
+
+
+
+Product Service -
+1. Get All Products
+2. Search Particular Product using Name, ID, Brand or Category
+3. Add Reviews for Product
+
+
+
+Customer Service - 
+1. Get All Customers
+3. Search Customer using Name, Email or UserID
+4. Remove Customer
+5. Update Details of Customer
+
+
+
+Order Service - 
+1. Add New Order -> send email after order Confirmation
+2. Get All Orders 
+3. Update Status of Order pending to processing
+4. Get Order Details using Order ID
+
+
+
+Notification Service - 
+1. Send Order Confirmation Email to User with Order Details
+
+#TODO
+Decorters
+unit testing with jest
+RabbitMQ
+ciruit breaker
+dependecy injection
+DTO, interfaces
