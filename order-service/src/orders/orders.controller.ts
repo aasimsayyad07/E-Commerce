@@ -17,7 +17,7 @@ import { Request } from 'express';
 import { JwtAuthguard } from 'src/auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthguard)
-@Controller()
+@Controller('/orders')
 export class OrdersController {
   constructor(
     private ordersProducerService: OrdersProducerService,
