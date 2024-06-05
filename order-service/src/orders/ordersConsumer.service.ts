@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Payload } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AddOrderDto } from 'src/dto/add-order.dto';
-import { Order, OrderDocument } from 'src/schema/order.schema';
+import { AddOrderDto } from 'src/orders/dto/add-order.dto';
+import { Order, OrderDocument } from 'src/orders/schema/order.schema';
 
 @Injectable()
 export class OrdersConsumerService {
