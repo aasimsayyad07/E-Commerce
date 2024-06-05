@@ -11,8 +11,8 @@ export class Order {
   @Prop({ unique: true, default: uuidv4 })
   orderID: string;
 
-  @Prop({ unique: true, default: uuidv4 })
-  userid: string;
+  @Prop({ required: true })
+  userId: number;
 
   @Prop([
     {
