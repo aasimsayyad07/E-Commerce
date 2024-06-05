@@ -5,6 +5,8 @@ import { Model } from 'mongoose';
 import { AddOrderDto } from 'src/orders/dto/add-order.dto';
 import { Order, OrderDocument } from 'src/orders/schema/order.schema';
 import axios from 'axios';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class OrdersProducerService {

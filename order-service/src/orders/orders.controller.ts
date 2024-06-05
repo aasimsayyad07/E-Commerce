@@ -7,13 +7,16 @@ import {
   Post,
   Put,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { OrdersProducerService } from './ordersProducer.service';
 import { AddOrderDto } from 'src/orders/dto/add-order.dto';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { OrdersConsumerService } from './ordersConsumer.service';
 import { Request } from 'express';
+import { JwtAuthguard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthguard)
 @Controller()
 export class OrdersController {
   constructor(
