@@ -110,7 +110,7 @@ export class AuthService {
       }
 
       //create jwt token
-      const token = await jwt.sign({ email: email }, process.env.SECERT_KEY, {
+      const token = await jwt.sign({ email: email }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       });
 
