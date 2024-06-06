@@ -60,7 +60,10 @@ export class OrdersProducerService {
       /**
        * @description Place Order in RabbitMQ Queue
        */
-      this.rabbitClient.emit('order-placed', addOrderDto);
+      this.rabbitClient.emit('order-placed', {
+        orderData: addOrderDto,
+        headers: { authorization: token },
+      });
 
       return 'Order Placed';
     } catch (error) {

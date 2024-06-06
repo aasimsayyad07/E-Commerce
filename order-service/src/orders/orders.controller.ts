@@ -43,8 +43,13 @@ export class OrdersController {
    * @returns add Order details
    */
   @EventPattern('order-placed')
-  handleOrder(@Payload() data: AddOrderDto) {
-    return this.orderCoumsumerService.handleAddOrder(data);
+  handleOrder(@Payload() data: any) {
+    const { orderData, headers } = data;
+    const authorizationHeader = headers.authorization;
+    return this.orderCoumsumerService.handleAddOrder(
+      orderData,
+      authorizationHeader,
+    );
   }
 
   /**
@@ -68,8 +73,6 @@ export class OrdersController {
     @Param('orderID', ParseUUIDPipe) param: string,
     @Body() paymentDetails: Record<string, string>,
   ) {
-    console.log(param);
-
     return this.ordersProducerService.updateStatus(param, paymentDetails);
   }
 
