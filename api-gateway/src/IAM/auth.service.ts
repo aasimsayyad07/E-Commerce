@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateCustomerDto } from '../dto/create-customer.dto';
+import { CreateCustomerDto } from './dto/create-customer.dto';
 import { Pool } from 'pg';
-import * as queries from '../queries/customer.queries';
+import * as queries from './queries/customer.queries';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
