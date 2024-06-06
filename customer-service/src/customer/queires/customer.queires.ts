@@ -1,5 +1,5 @@
 export const getCustomers =
-  'SELECT name, email, gender, mobile_number, username FROM customers';
+  'SELECT user_id, name, email, gender, mobile_number, username FROM customers';
 
 export const searchID = 'SELECT * FROM customers WHERE user_id = $1';
 

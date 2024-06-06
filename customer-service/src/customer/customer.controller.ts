@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Param, Delete, Put, Body } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 
 @Controller('/customer')
@@ -26,22 +26,27 @@ export class CustomerController {
   }
 
   /**
+   * @function updateCustomer
+   * @description remove user from customer database
+   * @params user id
+   * @returns reomved message
+   */
+
+  @Put('/:user_id/updateCustomer')
+  updateCustomer(
+    @Param('user_id') id: number,
+    @Body() userName: Record<string, string>,
+  ) {
+    return this.customerService.updateCustomer(id, userName);
+  }
+
+  /**
    * @function removeCustomer
    * @description remove user from customer database
    * @returns reomved message
    */
   @Delete('/:user_id/removeCustomer')
-  removeCustomer(@Param('id') id: string) {
-    return this.customerService.removeCustomer(+id);
-  }
-
-  /**
-   * @function updateCustomer
-   * @description remove user from customer database
-   * @returns reomved message
-   */
-  @Put('/:user_id/updateCustomer')
-  updateCustomer() {
-    return this.customerService.updateCustomer();
+  removeCustomer(@Param('user_id') id: number) {
+    return this.customerService.removeCustomer(id);
   }
 }

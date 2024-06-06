@@ -50,8 +50,19 @@ export class CustomerService {
    * @description remove user from customer database
    * @returns reomved message
    */
-  removeCustomer(id: number) {
-    return `This action removes a #${id} customer`;
+  async removeCustomer(id: number) {
+    try {
+      let results: QueryResult<any>;
+      results = await this.pool.query(queires.searchID, [id]);
+      if (!results.rowCount) {
+        return 'User does not exist in Database';
+      }
+
+      results = await this.pool.query(queires.removeCustomer, [id]);
+      return { code: 'Customers removed Successfully from database' };
+    } catch (error) {
+      return error;
+    }
   }
 
   /**
@@ -59,5 +70,20 @@ export class CustomerService {
    * @description remove user from customer database
    * @returns reomved message
    */
-  updateCustomer() {}
+  async updateCustomer(id: number, payload: Record<string, string>) {
+    try {
+      const { name } = payload;
+
+      let results: QueryResult<any>;
+      results = await this.pool.query(queires.searchID, [id]);
+      if (!results.rowCount) {
+        return { code: 'User does not exist in Database' };
+      }
+
+      results = await this.pool.query(queires.updateCustomer, [name, id]);
+      return { code: 'Customer Details Updated Successfully' };
+    } catch (error) {
+      return error;
+    }
+  }
 }
