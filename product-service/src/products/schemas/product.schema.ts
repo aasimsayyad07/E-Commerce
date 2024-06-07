@@ -9,7 +9,7 @@ export type ProductsDocument = Products & Document;
 
 @Schema()
 export class Products extends Document {
-  @ApiProperty({ example: 'Enter uinque product id' })
+  @ApiProperty({ description: 'Enter unique product id' })
   @Prop({ unique: true, default: uuidv4 })
   id: string;
 

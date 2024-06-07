@@ -10,14 +10,14 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Product API')
-    .setDescription('Defined all Product APIS')
+    .setDescription('Defined all Product Service API Endpoints')
     .setVersion('1.0')
     .addTag('Products')
     .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('apidocs/product-service', app, document);
 
   await app.listen(process.env.PORT);
 }

@@ -50,18 +50,21 @@ export class ProductsController {
 
   //REST API to Get All Products from Prdouct Database
   @Get('/getProducts')
+  @ApiOperation({ summary: 'Get All Products Information' })
   async getProducts() {
     return this.productService.getProducts();
   }
 
   //REST API to search Particular Product from Database
   @Get('/search')
+  @ApiOperation({ summary: 'Search Particular Product' })
   async search(@Query() query: Record<string, any>) {
     return this.productService.search(query);
   }
 
   //REST API to add review in Products
   @Post('/:name/addReviews')
+  @ApiOperation({ summary: 'Add Review for Product' })
   async addReview(
     @Param('name') param: string,
     @Body() crateReviewDto: CreateReviewDto,
@@ -71,6 +74,7 @@ export class ProductsController {
 
   //REST API to update qunatity of product
   @Put('/:id/updateQuantity')
+  @ApiOperation({ summary: 'Update Quantity of Product after user purchased' })
   async updateQuantity(
     @Param('id', ParseUUIDPipe) id: string,
     @Query('quantity', ParseIntPipe) quantity: number,
@@ -80,6 +84,10 @@ export class ProductsController {
 
   //Add Timestamp to update last updated Product Document
   @Post('/:id/updateTime')
+  @ApiOperation({
+    summary:
+      'Dummy Endpoint- Update Time to check last updated product details',
+  })
   async updateTime(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body('timestamp', parseDatePipe) date: string,
@@ -90,6 +98,7 @@ export class ProductsController {
 
   //call external serivce which is down
   @Get('/external')
+  @ApiOperation({ summary: 'Dummy Endpoint- Circuit Breaker Implemenation' })
   async testService(@Req() req: Request) {
     try {
       const token = req.headers['authorization'];

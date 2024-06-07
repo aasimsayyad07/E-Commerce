@@ -36,7 +36,7 @@ export class CreateProductDto {
   @IsString()
   category: string;
 
-  @ApiProperty({ description: 'Total Avialble Stock Quanityty' })
+  @ApiProperty({ description: 'Total Avalible Stock Quanityty' })
   @IsNotEmpty()
   @IsNumber()
   quantity: number;
