@@ -1,6 +1,7 @@
+// app.module.ts
 import { Module } from '@nestjs/common';
-import { CustomerModule } from './customer/customer.module';
 import { AuthModule } from './auth/jwt-auth.module';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [AuthModule, CustomerModule],

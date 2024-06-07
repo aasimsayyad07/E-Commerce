@@ -1,19 +1,34 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Pool, QueryResult } from 'pg';
-import * as queires from './queires/customer.queires';
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { User } from './entity/customer.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CustomerService {
-  constructor(@Inject('DATABASE_POOL') private pool: Pool) {}
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
   /**
    * @function getCustomers
    * @description Get Details of Customer
    * @returns user information
    */
-  async getCustomers() {
+  async getCustomers(): Promise<User[]> {
     try {
-      const customers = await this.pool.query(queires.getCustomers);
-      return customers.rows;
+      // const customers = await this.pool.query(queires.getCustomers);
+      // return customers.rows;
+      const users = await this.usersRepository
+        .createQueryBuilder('customer')
+        .select([
+          'customer.user_id',
+          'customer.name',
+          'customer.email',
+          'customer.gender',
+          'customer.username',
+        ])
+        .getMany();
+      return users;
     } catch (error) {
       return error;
     }
@@ -24,22 +39,46 @@ export class CustomerService {
    * @description Get Details of particular Customer using name, email, username
    * @returns user information
    */
-  async search(param: Record<string, string>) {
+  async search(param: Record<string, string>): Promise<User[]> {
     try {
       const { query } = param;
 
-      let results: QueryResult<any>;
+      if (!query) {
+        return [];
+      }
+      let users: any;
       if (!isNaN(+query)) {
-        results = await this.pool.query(queires.searchID, [parseInt(query)]);
+        users = await this.usersRepository
+          .createQueryBuilder('customer')
+          .select([
+            'customer.user_id',
+            'customer.name',
+            'customer.email',
+            'customer.gender',
+            'customer.username',
+          ])
+          .where('customer.user_id = :query', { query: parseInt(query) })
+          .getMany();
       } else {
-        results = await this.pool.query(queires.search, [query]);
+        users = await this.usersRepository
+          .createQueryBuilder('customer')
+          .select([
+            'customer.user_id',
+            'customer.name',
+            'customer.email',
+            'customer.gender',
+            'customer.username',
+          ])
+          .where('customer.name ILIKE :query', { query: `%${query}%` })
+          .where('customer.email ILIKE :query', { query: `%${query}%` })
+          .getMany();
       }
 
-      if (results.rowCount == 0) {
-        return 'User is not found';
+      if (users.length === 0) {
+        return [];
       }
 
-      return results.rows;
+      return users;
     } catch (error) {
       return error;
     }
@@ -50,16 +89,17 @@ export class CustomerService {
    * @description remove user from customer database
    * @returns reomved message
    */
-  async removeCustomer(id: number) {
+  async removeCustomer(user_id: number): Promise<void | string> {
     try {
-      let results: QueryResult<any>;
-      results = await this.pool.query(queires.searchID, [id]);
-      if (!results.rowCount) {
-        return 'User does not exist in Database';
-      }
+      const results = await this.usersRepository.findOne({
+        where: { user_id: user_id },
+      });
 
-      results = await this.pool.query(queires.removeCustomer, [id]);
-      return { code: 'Customers removed Successfully from database' };
+      if (!results) {
+        return 'User not found';
+      }
+      await this.usersRepository.delete(user_id);
+      return 'Customers removed Successfully from database';
     } catch (error) {
       return error;
     }
@@ -70,18 +110,17 @@ export class CustomerService {
    * @description remove user from customer database
    * @returns reomved message
    */
-  async updateCustomer(id: number, payload: Record<string, string>) {
+  async updateCustomer(id: number, name: User): Promise<void | string> {
     try {
-      const { name } = payload;
+      const results = await this.usersRepository.findOne({
+        where: { user_id: id },
+      });
 
-      let results: QueryResult<any>;
-      results = await this.pool.query(queires.searchID, [id]);
-      if (!results.rowCount) {
-        return { code: 'User does not exist in Database' };
+      if (!results) {
+        return 'User not found';
       }
-
-      results = await this.pool.query(queires.updateCustomer, [name, id]);
-      return { code: 'Customer Details Updated Successfully' };
+      await this.usersRepository.update(id, name);
+      return 'Customer Details Updated Successfully';
     } catch (error) {
       return error;
     }

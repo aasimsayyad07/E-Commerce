@@ -10,6 +10,7 @@ import {
 import { CustomerService } from './customer.service';
 import { JwtAuthguard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { User } from './entity/customer.entity';
 
 @UseGuards(JwtAuthguard)
 @ApiBearerAuth()
@@ -25,7 +26,7 @@ export class CustomerController {
    */
   @Get('/getCustomers')
   @ApiOperation({ summary: 'Get All Customers' })
-  getCustomers() {
+  getCustomers(): Promise<User[]> {
     return this.customerService.getCustomers();
   }
 
@@ -36,7 +37,7 @@ export class CustomerController {
    */
   @Get('/search/:query')
   @ApiOperation({ summary: 'Search Particular Customers' })
-  search(@Param() param: Record<string, string>) {
+  search(@Param() param: Record<string, string>): Promise<User[]> {
     return this.customerService.search(param);
   }
 
@@ -51,8 +52,8 @@ export class CustomerController {
   @ApiOperation({ summary: 'Update particular Customers details using ID' })
   updateCustomer(
     @Param('user_id') id: number,
-    @Body() userName: Record<string, string>,
-  ) {
+    @Body() userName: User,
+  ): Promise<void | string> {
     return this.customerService.updateCustomer(id, userName);
   }
 
@@ -63,7 +64,7 @@ export class CustomerController {
    */
   @Delete('/:user_id/removeCustomer')
   @ApiOperation({ summary: 'Remove Customer from DB' })
-  removeCustomer(@Param('user_id') id: number) {
+  removeCustomer(@Param('user_id') id: number): Promise<void | string> {
     return this.customerService.removeCustomer(id);
   }
 }
