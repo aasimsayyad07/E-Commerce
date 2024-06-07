@@ -3,6 +3,10 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+/**
+ * @description Define postgresSQL Connection Pool
+ */
+
 export const databaseProviders = [
   {
     provide: 'DATABASE_POOL',

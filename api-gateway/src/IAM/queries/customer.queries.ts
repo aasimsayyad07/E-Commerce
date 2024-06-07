@@ -1,3 +1,7 @@
+/**
+ * @description Queires which handles user request and actal logic
+ */
+
 export const checkAlreadyExistEmail =
   'SELECT s FROM customers s WHERE s.email = $1';
 

@@ -1,5 +1,8 @@
 import { IsNotEmpty, IsString, IsMobilePhone } from 'class-validator';
 
+/**
+ * @description Create new customer Information DTO
+ */
 export class CreateCustomerDto {
   @IsString()
   @IsNotEmpty()
