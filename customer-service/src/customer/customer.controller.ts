@@ -9,8 +9,11 @@ import {
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { JwtAuthguard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthguard)
+@ApiBearerAuth()
+@ApiTags('Customer')
 @Controller('/customer')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
@@ -21,6 +24,7 @@ export class CustomerController {
    * @returns user information
    */
   @Get('/getCustomers')
+  @ApiOperation({ summary: 'Get All Customers' })
   getCustomers() {
     return this.customerService.getCustomers();
   }
@@ -31,6 +35,7 @@ export class CustomerController {
    * @returns user information
    */
   @Get('/search/:query')
+  @ApiOperation({ summary: 'Search Particular Customers' })
   search(@Param() param: Record<string, string>) {
     return this.customerService.search(param);
   }
@@ -43,6 +48,7 @@ export class CustomerController {
    */
 
   @Put('/:user_id/updateCustomer')
+  @ApiOperation({ summary: 'Update particular Customers details using ID' })
   updateCustomer(
     @Param('user_id') id: number,
     @Body() userName: Record<string, string>,
@@ -56,6 +62,7 @@ export class CustomerController {
    * @returns reomved message
    */
   @Delete('/:user_id/removeCustomer')
+  @ApiOperation({ summary: 'Remove Customer from DB' })
   removeCustomer(@Param('user_id') id: number) {
     return this.customerService.removeCustomer(id);
   }
