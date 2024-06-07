@@ -30,7 +30,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('apidocs/order-service', app, document);
+  SwaggerModule.setup('orders/apidocs', app, document);
   await app.listen(process.env.PORT);
 }
 bootstrap();

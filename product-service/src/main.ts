@@ -17,7 +17,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('apidocs/product-service', app, document);
+  SwaggerModule.setup('products/apidocs', app, document);
 
   await app.listen(process.env.PORT);
 }
