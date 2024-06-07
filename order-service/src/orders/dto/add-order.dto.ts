@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsArray,
   IsNotEmpty,
@@ -7,23 +8,28 @@ import {
 } from 'class-validator';
 
 class OrderItemsDto {
+  @ApiProperty({ description: 'Product ID' })
   @IsNumber()
   @IsPositive()
-  productId: number;
+  productId: string;
 
+  @ApiProperty({ description: 'Total Purchased Quantity' })
   @IsNumber()
   @IsPositive()
   quantity: number;
 }
 
 export class AddOrderDto {
+  @ApiProperty({ description: 'User ID' })
   @IsNotEmpty()
   @IsString()
   userId: string;
 
+  @ApiProperty({ description: 'Items Details' })
   @IsNotEmpty()
-  items: object;
+  items: OrderItemsDto[];
 
+  @ApiProperty({ description: 'Amount Details' })
   @IsArray()
-  totalAmount: OrderItemsDto[];
+  totalAmount: number;
 }

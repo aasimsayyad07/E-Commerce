@@ -1,6 +1,7 @@
 // src/order/schemas/order.schema.ts
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,9 +12,11 @@ export class Order {
   @Prop({ unique: true, default: uuidv4 })
   orderID: string;
 
+  @ApiProperty({ description: 'Enter User ID' })
   @Prop({ required: true })
   userId: number;
 
+  @ApiProperty({ description: 'Items Details Product ID and Qunatity' })
   @Prop([
     {
       productId: { type: Number, required: true, ref: 'Product' },

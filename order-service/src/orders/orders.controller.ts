@@ -15,8 +15,11 @@ import { EventPattern, Payload } from '@nestjs/microservices';
 import { OrdersConsumerService } from './ordersConsumer.service';
 import { Request } from 'express';
 import { JwtAuthguard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthguard)
+@ApiBearerAuth()
+@ApiTags('Products')
 @Controller('/orders')
 export class OrdersController {
   constructor(
@@ -31,6 +34,7 @@ export class OrdersController {
    * @returns Order Confirmation Message
    */
   @Post('/placeOrder')
+  @ApiOperation({ summary: 'Add New Order' })
   addOrder(@Req() req: Request, @Body() addOrderDto: AddOrderDto) {
     const token = req.headers['authorization'];
     return this.ordersProducerService.placedOrder(addOrderDto, token);
@@ -59,6 +63,7 @@ export class OrdersController {
    * @returns All Order Information
    */
   @Get('/getAllOrders')
+  @ApiOperation({ summary: 'Get All Order Details' })
   getAllOrders() {
     return this.ordersProducerService.getAllOrders();
   }
@@ -70,6 +75,7 @@ export class OrdersController {
    * @returns newly updated order details
    */
   @Put('/:orderID/status')
+  @ApiOperation({ summary: 'Update order Stauts from pending to proceesing' })
   updateStatus(
     @Param('orderID', ParseUUIDPipe) param: string,
     @Body() paymentDetails: Record<string, string>,
@@ -84,6 +90,7 @@ export class OrdersController {
    * @returns Order details with parictuar order ID
    */
   @Get('/:orderID/orderDetails')
+  @ApiOperation({ summary: 'Get Partiuclar Order Details using Order ID' })
   getOrderDetailsByID(@Param('orderID', ParseUUIDPipe) param: string) {
     return this.ordersProducerService.getOrderDetailsByID(param);
   }
