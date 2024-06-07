@@ -18,7 +18,7 @@ export class ProxyMiddleware implements NestMiddleware {
     if (route) {
       const target = routes[route];
 
-      createProxyMiddleware({ target, changeOrigin: false })(req, res, next);
+      createProxyMiddleware({ target, changeOrigin: true })(req, res, next);
     } else {
       next();
     }
