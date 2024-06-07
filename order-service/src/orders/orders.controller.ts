@@ -44,10 +44,11 @@ export class OrdersController {
    */
   @EventPattern('order-placed')
   handleOrder(@Payload() data: any) {
-    const { orderData, headers } = data;
+    const { orderData, email, headers } = data;
     const authorizationHeader = headers.authorization;
     return this.orderCoumsumerService.handleAddOrder(
       orderData,
+      email,
       authorizationHeader,
     );
   }

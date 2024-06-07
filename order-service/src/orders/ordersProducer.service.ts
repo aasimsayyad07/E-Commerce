@@ -32,12 +32,13 @@ export class OrdersProducerService {
       /**
        * @description Check User Is valid to Placed Order - check user ID is prsent in database
        */
-      try {
-        await axios.get(
-          `${process.env.APIGATEWAYURL}/customer/search/${parseInt(userId)}`,
-          { headers: { Authorization: token } },
-        );
-      } catch (err) {
+      const response = await axios.get(
+        `${process.env.APIGATEWAYURL}/customer/search/${parseInt(userId)}`,
+        { headers: { Authorization: token } },
+      );
+      const userEmail = response.data[0].email;
+
+      if (response.data[0].length) {
         return 'User ID is not valid';
       }
 
@@ -62,10 +63,11 @@ export class OrdersProducerService {
        */
       this.rabbitClient.emit('order-placed', {
         orderData: addOrderDto,
+        email: userEmail,
         headers: { authorization: token },
       });
 
-      return 'Order Placed';
+      return 'Order Placed Successfully - Check Email for All Details';
     } catch (error) {
       return error;
     }
