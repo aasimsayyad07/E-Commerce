@@ -43,7 +43,7 @@ export class OrdersConsumerService {
       const sendEmail = await axios.post(
         `${process.env.APIGATEWAYURL}/notification/sendEmailOrderDetails/${userEmail}/${orderID}`,
         null,
-        { headers: { Authorization: token } },
+        { headers: { Authorization: 'Bearer ' + token } },
       );
 
       if (sendEmail.data[0].length) {
