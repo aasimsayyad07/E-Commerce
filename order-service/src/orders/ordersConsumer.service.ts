@@ -35,7 +35,7 @@ export class OrdersConsumerService {
       const savedOrder = await order.save();
 
       /**
-       * @description Send EMail Notifitcation
+       * @description Send Email Notifitcation
        */
       const userEmail = email;
       const orderID = savedOrder.orderID;

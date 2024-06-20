@@ -32,13 +32,14 @@ export class OrdersProducerService {
       /**
        * @description Check User Is valid to Placed Order - check user ID is prsent in database
        */
-      const response = await axios.get(
-        `${process.env.APIGATEWAYURL}/customer/search/${parseInt(userId)}`,
-        { headers: { Authorization: token } },
-      );
-      const userEmail = response.data[0].email;
-
-      if (response.data[0].length) {
+      let userEmail: any;
+      try {
+        const response = await axios.get(
+          `${process.env.APIGATEWAYURL}/customer/search/${parseInt(userId)}`,
+          { headers: { Authorization: token } },
+        );
+        userEmail = response.data[0].email;
+      } catch (err) {
         return 'User ID is not valid';
       }
 
