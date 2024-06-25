@@ -51,7 +51,9 @@ export class ProductsController {
   //REST API to Get All Products from Prdouct Database
   @Get('/getProducts')
   @ApiOperation({ summary: 'Get All Products Information' })
-  async getProducts() {
+  async getProducts(@Req() req: Request) {
+    const requestId = req.headers['x-request-id'];
+    console.log(requestId);
     return this.productService.getProducts();
   }
 

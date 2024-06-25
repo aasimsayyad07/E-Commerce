@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
+import { Request } from 'express';
 
 @Controller()
 export class AuthController {
@@ -24,7 +25,9 @@ export class AuthController {
    * @returns User Request Auth
    */
   @Post('/login')
-  signIn(@Body() loginDetails: Record<string, string>) {
+  signIn(@Body() loginDetails: Record<string, string>, @Req() req: Request) {
+    const requestId = req.headers['x-request-id'];
+    console.log(requestId);
     return this.appService.signIn(loginDetails);
   }
 }

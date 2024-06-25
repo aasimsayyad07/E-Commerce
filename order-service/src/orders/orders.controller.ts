@@ -64,7 +64,9 @@ export class OrdersController {
    */
   @Get('/getAllOrders')
   @ApiOperation({ summary: 'Get All Order Details' })
-  getAllOrders() {
+  getAllOrders(@Req() req: Request) {
+    const requestId = req.headers['x-request-id'];
+    console.log(requestId);
     return this.ordersProducerService.getAllOrders();
   }
 

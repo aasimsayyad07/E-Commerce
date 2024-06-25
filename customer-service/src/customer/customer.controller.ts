@@ -6,11 +6,13 @@ import {
   Put,
   Body,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { JwtAuthguard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './entity/customer.entity';
+import { Request } from 'express';
 
 @UseGuards(JwtAuthguard)
 @ApiBearerAuth()
@@ -26,7 +28,9 @@ export class CustomerController {
    */
   @Get('/getCustomers')
   @ApiOperation({ summary: 'Get All Customers' })
-  getCustomers(): Promise<User[]> {
+  getCustomers(@Req() req: Request): Promise<User[]> {
+    const requestId = req.headers['x-request-id'];
+    console.log(requestId);
     return this.customerService.getCustomers();
   }
 
